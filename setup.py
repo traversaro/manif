@@ -82,7 +82,7 @@ def get_package_xml_version():
 
 
 with open('README.md', 'r') as f:
-    long_description = f.read()
+    long_description = ""
 
 setup(
     name='manifpy',
