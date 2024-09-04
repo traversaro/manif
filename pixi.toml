@@ -1,0 +1,69 @@
+[project]
+authors = ["Silvio Traversaro <silvio@traversaro.it>"]
+channels = ["conda-forge"]
+description = "Simple example to reproduce the bindings build on Windows"
+name = "manif"
+platforms = ["win-64"]
+version = "0.1.0"
+
+[tasks]
+# Just to print the vs version for debug
+print_cl_version = { cmd = "cl.exe"}
+
+
+[feature.vs2019.tasks]
+configure = { cmd = [
+    "cmake",
+    "-DCMAKE_BUILD_TYPE=Release",
+    "-DBUILD_TESTING:BOOL=OFF",
+    "-DBUILD_PYTHON_BINDINGS:BOOL=ON",
+    # Use the cross-platform Ninja generator
+    "-G",
+    "Ninja",
+    # The source is in the root directory
+    "-S",
+    ".",
+    # We wanna build in the .build directory
+    "-B",
+    "build2019",
+]}
+build = { cmd = "cmake --build build2019 --config Release", depends_on = ["configure", "print_cl_version"] }
+
+
+[feature.vs2022.tasks]
+configure = { cmd = [
+    "cmake",
+    "-DCMAKE_BUILD_TYPE=Release",
+    "-DBUILD_TESTING:BOOL=OFF",
+    "-DBUILD_PYTHON_BINDINGS:BOOL=ON",
+    # Use the cross-platform Ninja generator
+    "-G",
+    "Ninja",
+    # The source is in the root directory
+    "-S",
+    ".",
+    # We wanna build in the .build directory
+    "-B",
+    "build2022",
+]}
+build = { cmd = "cmake --build build2022 --config Release", depends_on = ["configure", "print_cl_version"] }
+
+[dependencies]
+cmake = ">=3.30.3,<4"
+ninja = ">=1.12.1,<2"
+eigen = ">=3.4.0,<4"
+python = ">=3.12.5,<4"
+gtest = ">=1.15.2,<2"
+gmock = ">=1.15.2,<2"
+pybind11 = ">=2.13.5,<3"
+numpy = ">=2.1.1,<3"
+
+[feature.vs2019.dependencies]
+vs2019_win-64 = "*"
+
+[feature.vs2022.dependencies]
+vs2022_win-64 = "*"
+
+[environments]
+vs2019 = ["vs2019"]
+vs2022 = ["vs2022"]

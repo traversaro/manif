@@ -16,3 +16,6 @@ docs/m.css
 *__pycache__
 .pytest_cache
 dist
+# pixi environments
+.pixi
+*.egg-info
