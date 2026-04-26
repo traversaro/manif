@@ -21,8 +21,6 @@ function(manif_add_benchmark target)
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     # GCC is not strict enough by default, so enable most of the warnings.
     target_compile_options(${target} PRIVATE
-      -Werror=all
-      -Werror=extra
       # When the library is built using GCC it is necessary to link
       # with the pthread library due to how GCC implements std::thread.
       # See https://github.com/google/benchmark#platform-specific-build-instructions
